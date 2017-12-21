@@ -3,6 +3,7 @@ package lesc.ufc.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseController {
 	
@@ -20,8 +21,16 @@ public class DatabaseController {
 		con = DriverManager.getConnection("jdbc:sqlite:" + databaseName + ".db");
 		System.out.println("DATABASECONTROLLER - Open Database");
 	}
-	
-	
-	
-	
+
+	public void createTable(String table_name, String ...attributes) throws SQLException {
+		String sql = "CREATE TABLE " + table_name + "(";
+		for(String attribute : attributes) {
+			sql = sql.concat(attribute + "");
+		}
+		
+		sql = sql.concat(")" ); 
+		System.out.println("DATABASECONTROLLER - " + sql);
+		Statement statement = con.createStatement();
+		statement.executeUpdate(sql);
+	}
 }
