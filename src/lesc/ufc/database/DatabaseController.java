@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class DatabaseController {
 	
-	private String database;
+	private String databaseName;
 	private Connection con; 
 	
 	private final String className = "org.sqlite.JDBC";
@@ -16,7 +16,7 @@ public class DatabaseController {
 		if(databaseName == null)
 			throw new NullPointerException();
 		
-		this.database = databaseName;
+		this.setDatabaseName(databaseName);
 		Class.forName(className);
 		con = DriverManager.getConnection("jdbc:sqlite:" + databaseName + ".db");
 		System.out.println("DATABASECONTROLLER - Open Database");
@@ -33,4 +33,13 @@ public class DatabaseController {
 		Statement statement = con.createStatement();
 		statement.executeUpdate(sql);
 	}
+
+	public String getDatabaseName() {
+		return databaseName;
+	}
+
+	public void setDatabaseName(String databaseName) {
+		this.databaseName = databaseName;
+	}
+	
 }

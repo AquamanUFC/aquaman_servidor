@@ -11,41 +11,56 @@ import lesc.ufc.database.DatabaseController;
 
 public class DatabaseControllerTests {
 	
-	private static final String db = "test_database";
+	private static final String databaseName = "test_database";
+	private DatabaseController databaseController;
 	
 	@Before
 	@After
-	public void deleteFiles()
+	public void deleteFiles() throws ClassNotFoundException, SQLException
 	{
-		File file = new File(db + ".db");
-		if(file.exists())
+		File file = new File(databaseName + ".db");
+		if(file.exists()) {
 			file.delete();
-		System.out.println("DATABASECONTROLLERTESTS - DELETADO");
+			System.out.println("DATABASECONTROLLERTESTS - DELETADO");
+		}
+		initDatabase();
+	}
+	
+	public void initDatabase() throws ClassNotFoundException, SQLException {
+
+		databaseController = new DatabaseController(databaseName);
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void openDatabaseNullName() throws ClassNotFoundException, SQLException {
-		new DatabaseController(null);
+		System.out.println("TEST OPENDATABASENULLNAME");
+		databaseController = new DatabaseController(null);
 	}
 	
 	@Test
 	public void openDatabaseSuccess() throws ClassNotFoundException, SQLException {
-		new DatabaseController(db);
+		System.out.println("TEST OPENDATABASESUCESS");
+		databaseController = new DatabaseController(databaseName);
 	}
 
 	
 	@Test
 	public void createTable() throws ClassNotFoundException, SQLException {
-		deleteFiles();
-		DatabaseController databaseController = new DatabaseController(db);
-		databaseController.createTable("users","name TEXT");
+		System.out.println("TEST CREATETABLE");
+		databaseController.createTable("table1","name TEXT");
 	}
 	
 	@Test(expected= SQLException.class)
 	public void createTableDuplicated() throws ClassNotFoundException, SQLException {
-		DatabaseController databaseController = new DatabaseController(db + '2');
+		System.out.println("TEST CREATETABLEDUPLICATED");
+		databaseController.createTable("table2","name TEXT");
+		databaseController.createTable("table2","name TEXT");
+	}
+
+	@Test
+	public void associateTableHasMany() throws SQLException {
 		databaseController.createTable("users","name TEXT");
-		databaseController.createTable("users","name TEXT");
+		databaseController.createTable("consumption","name TEXT");
 	}
 	
 }
