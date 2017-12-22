@@ -61,6 +61,7 @@ public class DatabaseControllerTests {
 	public void associateTableHasMany() throws SQLException {
 		databaseController.createTable("users","name TEXT");
 		databaseController.createTable("consumption","name TEXT");
+		databaseController.addTablesHasMany("users","consumption");
 	}
 	
 }

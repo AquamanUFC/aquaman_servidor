@@ -41,5 +41,9 @@ public class DatabaseController {
 	public void setDatabaseName(String databaseName) {
 		this.databaseName = databaseName;
 	}
+
+	public void addTablesHasMany(String string, String string2) {
+		throw new RuntimeException();
+	}
 	
 }
